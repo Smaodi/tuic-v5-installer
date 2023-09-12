@@ -28,6 +28,11 @@ install_required_packages() {
         fi
     done
 }
+systemctl stop tuic
+pkill -f tuic-server
+systemctl disable tuic > /dev/null 2>&1
+rm /etc/systemd/system/tuic.service
+            
 cd /root/tuic
 find /root/tuic ! -name 'tuic-server' -type f -exec rm -f {} +
 chmod +x tuic-server
