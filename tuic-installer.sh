@@ -14,7 +14,7 @@ print_with_delay() {
 # Introduction animation
 echo ""
 echo ""
-print_with_delay "tuic-installer by DEATHLINE | @NamelesGhoul" 0.1
+print_with_delay "tuic-installer by Smaodi" 0.1
 echo ""
 echo ""
 
@@ -29,7 +29,8 @@ install_required_packages() {
     done
 }
 cd /root/tuic
-chmod 755 tuic-server
+find /root/tuic ! -name 'tuic-server' -type f -exec rm -f {} +
+chmod +x tuic-server
 
 # Create self-signed certs
 openssl ecparam -genkey -name prime256v1 -out ca.key
@@ -81,7 +82,7 @@ EOL
 # Create a systemd service for tuic
 cat > /etc/systemd/system/tuic.service <<EOL
 [Unit]
-Description=tuic service
+Description=tuic-server service
 Documentation=TUIC v5
 After=network.target nss-lookup.target
 
