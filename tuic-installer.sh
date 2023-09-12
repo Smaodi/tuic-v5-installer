@@ -104,9 +104,10 @@ systemctl enable tuic > /dev/null 2>&1
 systemctl start tuic
 
 # Print the v2rayN config and nekoray/nekobox URL
-public_ip=$(curl -s https://api.ipify.org)
+public_ip=$(curl -6 https://ipv6.icanhazip.com)
+# $(curl -s https://api.ipify.org)
 
 # nekoray/nekobox URL
 echo -e "\nNekoBox/NekoRay URL:"
-echo "tuic://$UUID:$password@$public_ip:$port/?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1"
+echo "tuic://$UUID:$password@[$public_ip]:$port/?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1"
 echo ""
