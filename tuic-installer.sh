@@ -28,6 +28,7 @@ install_required_packages() {
         fi
     done
 }
+cd /root/tuic
 chmod 755 tuic-server
 
 # Create self-signed certs
