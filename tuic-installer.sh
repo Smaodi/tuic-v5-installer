@@ -37,7 +37,7 @@ cd /root/tuic
 find /root/tuic ! -name 'tuic-server' -type f -exec rm -f {} +
 chmod +x tuic-server
 
-# Create self-signed certs
+echo -e "Create self-signed certs"
 openssl ecparam -genkey -name prime256v1 -out ca.key
 openssl req -new -x509 -days 36500 -key ca.key -out ca.crt -subj "/CN=bing.com"
 
@@ -60,7 +60,7 @@ if [ -z "$UUID" ]; then
     exit 1
 fi
 
-# Create config.json
+echo -e "Create config.json"
 cat > config.json <<EOL
 {
   "server": "[::]:$port",
@@ -84,10 +84,10 @@ cat > config.json <<EOL
 }
 EOL
 
-# Create a systemd service for tuic
+echo -e "Create a systemd service for tuic"
 cat > /etc/systemd/system/tuic.service <<EOL
 [Unit]
-Description=tuic-server service
+Description=tuic service
 Documentation=TUIC v5
 After=network.target nss-lookup.target
 
@@ -96,7 +96,7 @@ User=root
 WorkingDirectory=/root/tuic
 CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_NET_RAW
 AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE CAP_NET_RAW
-ExecStart=/root/tuic run -c /root/tuic/config.json
+ExecStart=/root/tuic/tuic-server -c /root/tuic/config.json
 Restart=on-failure
 RestartSec=10
 LimitNOFILE=infinity
@@ -105,7 +105,7 @@ LimitNOFILE=infinity
 WantedBy=multi-user.target
 EOL
 
-# Reload systemd, enable and start tuic
+echo -e "Reload systemd, enable and start tuic"
 systemctl daemon-reload
 systemctl enable tuic > /dev/null 2>&1
 systemctl start tuic
